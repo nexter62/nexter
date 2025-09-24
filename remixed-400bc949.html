@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechFlow - IT Рішення нового покоління</title>
+    <style>
+        /* Design System - Типографіка та кольори */
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #06d6a0;
+            --bg-dark: #0f172a;
+            --bg-medium: #1e293b;
+            --bg-light: #334155;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-accent: #e2e8f0;
+            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 20px 50px rgba(99, 102, 241, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Типографіка */
+        h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; }
+        h2 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; }
+        h3 { font-size: 1.8rem; font-weight: 600; line-height: 1.3; }
+        h4 { font-size: 1.4rem; font-weight: 600; }
+        p { font-size: 1.1rem; color: var(--text-secondary); }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(15, 23, 42, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23334155" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .hero-title {
+            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideInRight 1s ease-out;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            opacity: 0.8;
+        }
+
+        .tech-item {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-medium);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: var(--shadow-card);
+        }
+
+        .tech-item:nth-child(even) {
+            animation-delay: -1.5s;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .about-text h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-medium);
+            border-radius: 20px;
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--bg-medium);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .service-title {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-member {
+            background: var(--bg-medium);
+            border-radius: 20px;
+            overflow: hidden;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-card);
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .team-avatar {
+            width: 100%;
+            height: 200px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .team-info {
+            padding: 2rem;
+        }
+
+        .team-name {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-position {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* Contact Form */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-accent);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--bg-light);
+            border-radius: 12px;
+            background: var(--bg-medium);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--bg-medium);
+            border-radius: 16px;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            background: var(--bg-medium);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--bg-medium);
+            padding: 3rem;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-medium);
+            padding: 3rem 0 2rem;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bg-light);
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--bg-dark);
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow-card);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .section {
+                padding: 3rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container, .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .hero-container {
+                padding: 0 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Hidden sections for navigation */
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">TechFlow</div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Головна</a></li>
+                <li><a href="#about" class="nav-link">Про нас</a></li>
+                <li><a href="#services" class="nav-link">Послуги</a></li>
+                <li><a href="#contact" class="nav-link">Контакти</a></li>
+                <li><a href="#" class="btn btn-primary" onclick="openModal()">Залишити заявку</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page-section active">
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">IT Рішення нового покоління</h1>
+                    <p class="hero-subtitle">Ми створюємо цифрові продукти, які змінюють бізнес та покращують життя мільйонів користувачів по всьому світу</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="#services" class="btn btn-primary">Наші послуги</a>
+                        <a href="#about" class="btn btn-outline">Дізнатись більше</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="tech-grid">
+                        <div class="tech-item">💻</div>
+                        <div class="tech-item">📱</div>
+                        <div class="tech-item">🚀</div>
+                        <div class="tech-item">⚡</div>
+                        <div class="tech-item">🔒</div>
+                        <div class="tech-item">☁️</div>
+                        <div class="tech-item">🤖</div>
+                        <div class="tech-item">🌐</div>
+                        <div class="tech-item">📊</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page-section">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Про компанію TechFlow</h2>
+                
+                <div class="about-grid">
+                    <div class="about-text">
+                        <h3>Наша історія</h3>
+                        <p>TechFlow була заснована в 2018 році з метою створення інноваційних IT-рішень для бізнесу. За 5 років ми виросли від невеликої команди з 3 розробників до провідної IT-компанії з понад 50 спеціалістами.</p>
+                        <p>Наша команда має досвід роботи з проектами різного масштабу - від стартапів до великих корпорацій. Ми пишаємось тим, що допомагаємо нашим клієнтам досягати їхніх бізнес-цілей через технології.</p>
+                    </div>
+                    <div class="about-text">
+                        <h3>Наша місія</h3>
+                        <p>Ми прагнемо зробити технології доступними та корисними для кожного бізнесу. Наша місія - створювати рішення, які не просто працюють, а справді покращують ефективність та результати наших клієнтів.</p>
+                        <p>Ми віримо, що успіх клієнта - це наш успіх. Тому ми завжди йдемо далі стандартних рішень і створюємо унікальні продукти, які відповідають конкретним потребам кожного проекту.</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">150+</div>
+                        <p>Успішних проектів</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <p>Спеціалістів</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5</div>
+                        <p>Років на ринку</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <p>Задоволених клієнтів</p>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="margin-top: 4rem;">Наша команда</h3>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="team-avatar">👨‍💼</div>
+                        <div class="team-info">
+                            <h4 class="team-name">Щербаченко Нікіта Олександрович</h4>
+                            <p class="team-position">Керівник проекту</p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">👨‍💻</div>
+                        <div class="team-info">
+                            <h4 class="team-name">Щербаченко Сергій Дмитрович</h4>
+                            <p class="team-position">Розробник</p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">👩‍💼</div>
+                        <div class="team-info">
+                            <h4 class="team-name">Щербаченко Алла Вікторівна</h4>
+                            <p class="team-position">Аналітик</p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">👩‍💻</div>
+                        <div class="team-info">
+                            <h4 class="team-name">Кійко Марина Сергіївна</h4>
+                            <p class="team-position">Дизайнер</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Services Page -->
+    <div id="services" class="page-section">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Наші послуги</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🌐</div>
+                        <h3 class="service-title">Веб-розробка</h3>
+                        <p>Створення сучасних веб-додатків та сайтів з використанням найновіших технологій. Від простих лендингів до складних корпоративних порталів.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📱</div>
+                        <h3 class="service-title">Мобільна розробка</h3>
+                        <p>Розробка нативних та крос-платформних мобільних додатків для iOS та Android. Увага до деталей та користувацький досвід на першому місці.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">☁️</div>
+                        <h3 class="service-title">Хмарні рішення</h3>
+                        <p>Міграція в хмару, розробка та підтримка хмарної інфраструктури. Забезпечуємо масштабованість та надійність ваших систем.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🤖</div>
+                        <h3 class="service-title">AI та Machine Learning</h3>
+                        <p>Інтеграція штучного інтелекту в бізнес-процеси. Розробка систем машинного навчання для автоматизації та оптимізації.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔒</div>
+                        <h3 class="service-title">Кібербезпека</h3>
+                        <p>Аудит безпеки, впровадження захищених рішень, консультації з кібербезпеки. Захищаємо ваш бізнес від цифрових загроз.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📊</div>
+                        <h3 class="service-title">Data Analytics</h3>
+                        <p>Аналіз даних, створення дашбордів, бізнес-аналітика. Допомагаємо приймати рішення на основі достовірних даних.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page-section">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Зв'яжіться з нами</h2>
+                <div class="contact-grid">
+                    <div>
+                        <h3 style="margin-bottom: 2rem; color: var(--text-primary);">Залишити повідомлення</h3>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label class="form-label">Ім'я *</label>
+                                <input type="text" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email *</label>
+                                <input type="email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Телефон</label>
+                                <input type="tel" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Повідомлення *</label>
+                                <textarea class="form-input form-textarea" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Відправити</button>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>Nextervr62@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div>
+                                <h4>Телефон</h4>
+                                <p>+380 95 683 71 40</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <h4>Адреса</h4>
+                                <p>м. Суми, вул. Харківська 116, Університет СумДУ</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div>
+                                <h4>Соціальні мережі</h4>
+                                <p>Instagram: @go_in_minecraft</p>
+                                <p>Telegram: @nexter62</p>
+                            </div>
+                        </div>
+                        <div class="map-container">
+                            <div style="text-align: center;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🗺️</div>
+                                <p>Інтерактивна карта Google</p>
+                                <p style="font-size: 0.9rem; opacity: 0.7;">м. Суми, вул. Харківська 116, Університет СумДУ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TechFlow</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Інноваційні IT-рішення для вашого бізнесу</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="#" style="font-size: 1.5rem;">📘</a>
+                        <a href="#" style="font-size: 1.5rem;">💼</a>
+                        <a href="#" style="font-size: 1.5rem;">📧</a>
+                        <a href="#" style="font-size: 1.5rem;">📱</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Послуги</h4>
+                    <a href="#services">Веб-розробка</a>
+                    <a href="#services">Мобільна розробка</a>
+                    <a href="#services">Хмарні рішення</a>
+                    <a href="#services">AI & ML</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Компанія</h4>
+                    <a href="#about">Про нас</a>
+                    <a href="#about">Команда</a>
+                    <a href="#contact">Контакти</a>
+                    <a href="#">Кар'єра</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакти</h4>
+                    <p style="color: var(--text-secondary);">📧 Nextervr62@gmail.com</p>
+                    <p style="color: var(--text-secondary);">📞 +380 95 683 71 40</p>
+                    <p style="color: var(--text-secondary);">📍 м. Суми, вул. Харківська 116, Університет СумДУ</p>
+                    <p style="color: var(--text-secondary);">📱 @go_in_minecraft | @nexter62</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechFlow. Всі права захищені.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="requestModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h3 style="margin-bottom: 2rem; color: var(--text-primary);">Залишити заявку</h3>
+            <form id="modalForm">
+                <div class="form-group">
+                    <label class="form-label">Ім'я *</label>
+                    <input type="text" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email *</label>
+                    <input type="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Телефон</label>
+                    <input type="tel" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Послуга</label>
+                    <select class="form-input">
+                        <option>Веб-розробка</option>
+                        <option>Мобільна розробка</option>
+                        <option>Хмарні рішення</option>
+                        <option>AI та Machine Learning</option>
+                        <option>Кібербезпека</option>
+                        <option>Data Analytics</option>
+                        <option>Консультація</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Коментар</label>
+                    <textarea class="form-input form-textarea" placeholder="Опишіть ваш проект..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Відправити заявку</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Navigation functionality
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation active state
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            document.querySelector(`[href="#${pageId}"]`).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Navigation event listeners
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('href').substring(1);
+                showPage(pageId);
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Modal functions
+        function openModal() {
+            document.getElementById('requestModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('requestModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on background click
+        document.getElementById('requestModal').addEventListener('click', (e) => {
+            if (e.target.id === 'requestModal') {
+                closeModal();
+            }
+        });
+
+        // Form submissions
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Animation for success
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Відправляється...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                submitBtn.textContent = '✓ Відправлено!';
+                submitBtn.style.background = 'var(--accent-color)';
+                
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.style.background = '';
+                    e.target.reset();
+                }, 2000);
+            }, 1000);
+        });
+
+        document.getElementById('modalForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Відправляється...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                submitBtn.textContent = '✓ Заявку відправлено!';
+                submitBtn.style.background = 'var(--accent-color)';
+                
+                setTimeout(() => {
+                    closeModal();
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.style.background = '';
+                    e.target.reset();
+                }, 1500);
+            }, 1000);
+        });
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.getAttribute('href').startsWith('#') && this.getAttribute('href') !== '#') {
+                    const targetId = this.getAttribute('href').substring(1);
+                    if (['home', 'about', 'services', 'contact'].includes(targetId)) {
+                        e.preventDefault();
+                        showPage(targetId);
+                    }
+                }
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Counter animation for stats
+        function animateCounter(element, target) {
+            const start = 0;
+            const duration = 2000;
+            const startTime = performance.now();
+            
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.round(start + (target - start) * progress);
+                
+                if (target > 100) {
+                    element.textContent = current + '+';
+                } else {
+                    element.textContent = current + (target === 98 ? '%' : '');
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            }
+            
+            requestAnimationFrame(updateCounter);
+        }
+
+        // Trigger counter animation when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const numbers = entry.target.querySelectorAll('.stat-number');
+                    const targets = [150, 50, 5, 98];
+                    
+                    numbers.forEach((number, index) => {
+                        setTimeout(() => {
+                            animateCounter(number, targets[index]);
+                        }, index * 200);
+                    });
+                    
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe stats grid when about page is active
+        const statsGrid = document.querySelector('.stats-grid');
+        if (statsGrid) {
+            statsObserver.observe(statsGrid);
+        }
+
+        // Page transition effects
+        function addPageTransition() {
+            const currentPage = document.querySelector('.page-section.active');
+            if (currentPage) {
+                currentPage.style.opacity = '0';
+                currentPage.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    currentPage.style.opacity = '1';
+                    currentPage.style.transform = 'translateY(0)';
+                }, 100);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add initial animations
+            setTimeout(() => {
+                document.querySelectorAll('.section').forEach(section => {
+                    if (section.getBoundingClientRect().top < window.innerHeight) {
+                        section.classList.add('visible');
+                    }
+                });
+            }, 100);
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            if (hero && document.getElementById('home').classList.contains('active')) {
+                hero.style.transform = `translateY(${rate}px)`;
+            }
+        });
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+    </script>
+</body>
+</html>
